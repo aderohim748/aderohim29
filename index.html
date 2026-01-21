@@ -1,177 +1,136 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Komunitas Cari Teman Mabar</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-      margin: 0;
-    }
-    nav {
-      background: #020617;
-      padding: 12px 20px;
-      display: flex;
-      gap: 20px;
-    }
-    nav a {
-      color: #38bdf8;
-      text-decoration: none;
-      font-weight: bold;
-      cursor: pointer;
-    }
-    .container {
-      max-width: 900px;
-      margin: auto;
-      padding: 20px;
-    }
-    h1, h2 {
-      color: #38bdf8;
-    }
-    .card {
-      background: #020617;
-      padding: 16px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(56,189,248,0.2);
-      margin-bottom: 20px;
-    }
-    input, button {
-      width: 100%;
-      padding: 10px;
-      margin-top: 8px;
-      background: #020617;
-      border: 1px solid #334155;
-      color: #e5e7eb;
-      border-radius: 6px;
-    }
-    button {
-      background: #2563eb;
-      border: none;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    button:hover { background: #1d4ed8; }
-    .posts {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 16px;
-    }
-    .hidden { display: none; }
-    .chat a {
-      display: inline-block;
-      margin-right: 10px;
-      color: #22c55e;
-      text-decoration: none;
-      font-size: 14px;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Komunitas Mabar Gaming</title>
+<style>
+body{margin:0;font-family:Arial;background:#0f172a;color:#e5e7eb}
+.hidden{display:none}
+h1,h2{color:#38bdf8}
+.container{padding:20px;max-width:900px;margin:auto}
+.card{background:#020617;padding:16px;border-radius:12px;margin-bottom:16px;box-shadow:0 0 12px rgba(56,189,248,.2)}
+input,select,button{width:100%;padding:10px;margin-top:8px;background:#020617;border:1px solid #334155;color:white;border-radius:8px}
+button{background:#2563eb;border:none;font-weight:bold}
+.posts{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:16px}
+nav.bottom{position:fixed;bottom:0;left:0;right:0;background:#020617;display:flex;justify-content:space-around;padding:10px 0;border-top:1px solid #334155}
+nav.bottom button{background:none;border:none;color:#38bdf8;font-size:14px}
+.role{font-size:12px;color:#22c55e}
+.reco{border:1px dashed #38bdf8;padding:10px;border-radius:8px;margin-top:10px}
+</style>
 </head>
 <body>
 
-<nav>
-  <a onclick="showPage('home')">Home</a>
-  <a onclick="showPage('about')">About</a>
-  <a onclick="showPage('rules')">Rules</a>
-</nav>
-
-<div class="container">
-
-  <!-- HOME -->
-  <div id="home">
-    <h1>🎮 Komunitas Cari Teman Mabar</h1>
-
-    <div class="card">
-      <h2>Posting Cari Mabar</h2>
-      <input id="username" placeholder="Nama kamu" />
-      <input id="game" placeholder="Nama game" />
-      <input id="note" placeholder="Rank / jam main" />
-      <input id="contact" placeholder="Link WA / Discord" />
-      <button onclick="addPost()">Posting</button>
-    </div>
-
-    <div class="card">
-      <input id="search" placeholder="🔎 Cari game..." onkeyup="filterPosts()" />
-    </div>
-
-    <div class="posts" id="posts"></div>
+<!-- LOGIN -->
+<div id="login" class="container">
+  <h1>🔐 Login</h1>
+  <div class="card">
+    <input id="loginName" placeholder="Nama">
+    <select id="loginRole">
+      <option value="Member">Member</option>
+      <option value="Admin">Admin</option>
+    </select>
+    <button onclick="login()">Masuk</button>
   </div>
-
-  <!-- ABOUT -->
-  <div id="about" class="hidden">
-    <h1>About</h1>
-    <div class="card">
-      <p>Website ini dibuat untuk mempertemukan gamer agar bisa bermain bersama (mabar), mencari tim, dan membangun komunitas gaming yang positif.</p>
-    </div>
-  </div>
-
-  <!-- RULES -->
-  <div id="rules" class="hidden">
-    <h1>Rules</h1>
-    <div class="card">
-      <ul>
-        <li>❌ No toxic & SARA</li>
-        <li>🤝 Saling menghormati</li>
-        <li>🎮 Mabar dengan sportif</li>
-        <li>🚫 Dilarang spam</li>
-      </ul>
-    </div>
-  </div>
-
 </div>
 
+<!-- HOME -->
+<div id="home" class="container hidden">
+  <h1>🎮 Komunitas Mabar</h1>
+  <p>Halo, <b id="userLabel"></b> <span class="role" id="roleLabel"></span></p>
+
+  <div class="card">
+    <h2>Posting Cari Mabar</h2>
+    <input id="game" placeholder="Game">
+    <input id="note" placeholder="Rank / Jam main">
+    <input id="contact" placeholder="Link WA / Discord">
+    <button onclick="addPost()">Posting</button>
+  </div>
+
+  <div class="card">
+    <input id="search" placeholder="🔎 Cari game" onkeyup="render()">
+  </div>
+
+  <div class="posts" id="posts"></div>
+
+  <div class="card reco">
+    <h3>🧠 Rekomendasi Teman Mabar</h3>
+    <div id="reco"></div>
+  </div>
+</div>
+
+<!-- ABOUT -->
+<div id="about" class="container hidden">
+  <h1>About</h1>
+  <div class="card">Website komunitas gamer untuk cari teman mabar & tim.</div>
+</div>
+
+<!-- RULES -->
+<div id="rules" class="container hidden">
+  <h1>Rules</h1>
+  <div class="card">
+    <ul>
+      <li>No toxic</li><li>No spam</li><li>Sportif</li>
+    </ul>
+  </div>
+</div>
+
+<!-- BOTTOM NAV -->
+<nav class="bottom hidden" id="nav">
+  <button onclick="show('home')">Home</button>
+  <button onclick="show('about')">About</button>
+  <button onclick="show('rules')">Rules</button>
+</nav>
+
 <script>
-  const postsEl = document.getElementById('posts');
-  const pages = ['home','about','rules'];
+let user = JSON.parse(localStorage.getItem('user'));
+let posts = JSON.parse(localStorage.getItem('posts')) || [];
 
-  const data = [
-    { user:'Andi', game:'Mobile Legends', note:'Epic, santai', contact:'https://wa.me/628xxxx' },
-    { user:'Salsa', game:'Valorant', note:'Gold, malam', contact:'https://discord.gg/xxxxx' }
-  ];
+function login(){
+  user = {name:loginName.value, role:loginRole.value};
+  localStorage.setItem('user',JSON.stringify(user));
+  init();
+}
 
-  function showPage(id){
-    pages.forEach(p => document.getElementById(p).classList.add('hidden'));
-    document.getElementById(id).classList.remove('hidden');
-  }
-
-  function render(){
-    postsEl.innerHTML='';
-    data.forEach(p => {
-      const div = document.createElement('div');
-      div.className='card post';
-      div.innerHTML = `
-        <h3>${p.game}</h3>
-        <p>👤 ${p.user}</p>
-        <p>${p.note}</p>
-        <div class='chat'>
-          <a href='${p.contact}' target='_blank'>💬 Chat</a>
-        </div>`;
-      postsEl.appendChild(div);
-    });
-  }
-
-  function addPost(){
-    const user = username.value;
-    const game = document.getElementById('game').value;
-    const note = document.getElementById('note').value;
-    const contact = document.getElementById('contact').value;
-    if(!user || !game) return alert('Nama & game wajib diisi');
-    data.unshift({user,game,note,contact});
-    render();
-  }
-
-  function filterPosts(){
-    const q = document.getElementById('search').value.toLowerCase();
-    document.querySelectorAll('.post').forEach(p=>{
-      p.style.display = p.innerText.toLowerCase().includes(q) ? '' : 'none';
-    });
-  }
-
+function init(){
+  if(!user) return;
+  login.classList.add('hidden');
+  home.classList.remove('hidden');
+  nav.classList.remove('hidden');
+  userLabel.innerText = user.name;
+  roleLabel.innerText = '('+user.role+')';
   render();
+}
+
+function show(id){
+  ['home','about','rules'].forEach(p=>document.getElementById(p).classList.add('hidden'));
+  document.getElementById(id).classList.remove('hidden');
+}
+
+function addPost(){
+  posts.unshift({user:user.name,game:game.value,note:note.value,contact:contact.value});
+  localStorage.setItem('posts',JSON.stringify(posts));
+  render();
+}
+
+function render(){
+  postsEl.innerHTML='';
+  const q = search.value.toLowerCase();
+  posts.filter(p=>p.game.toLowerCase().includes(q)).forEach(p=>{
+    const d=document.createElement('div');
+    d.className='card';
+    d.innerHTML=`<h3>${p.game}</h3><p>${p.note}</p><a href='${p.contact}' target='_blank'>💬 Chat</a>`;
+    postsEl.appendChild(d);
+  });
+  recommend();
+}
+
+function recommend(){
+  const same = posts.filter(p=>p.user!==user.name).slice(0,3);
+  reco.innerHTML = same.map(s=>`<p>🎮 ${s.user} main ${s.game}</p>`).join('') || 'Belum ada rekomendasi';
+}
+
+init();
 </script>
-
 </body>
-  </html>
-
+</html>
