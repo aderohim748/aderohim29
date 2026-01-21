@@ -1,1 +1,177 @@
-Hallo world 
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Komunitas Cari Teman Mabar</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      margin: 0;
+    }
+    nav {
+      background: #020617;
+      padding: 12px 20px;
+      display: flex;
+      gap: 20px;
+    }
+    nav a {
+      color: #38bdf8;
+      text-decoration: none;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .container {
+      max-width: 900px;
+      margin: auto;
+      padding: 20px;
+    }
+    h1, h2 {
+      color: #38bdf8;
+    }
+    .card {
+      background: #020617;
+      padding: 16px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(56,189,248,0.2);
+      margin-bottom: 20px;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      background: #020617;
+      border: 1px solid #334155;
+      color: #e5e7eb;
+      border-radius: 6px;
+    }
+    button {
+      background: #2563eb;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    button:hover { background: #1d4ed8; }
+    .posts {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+    .hidden { display: none; }
+    .chat a {
+      display: inline-block;
+      margin-right: 10px;
+      color: #22c55e;
+      text-decoration: none;
+      font-size: 14px;
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a onclick="showPage('home')">Home</a>
+  <a onclick="showPage('about')">About</a>
+  <a onclick="showPage('rules')">Rules</a>
+</nav>
+
+<div class="container">
+
+  <!-- HOME -->
+  <div id="home">
+    <h1>🎮 Komunitas Cari Teman Mabar</h1>
+
+    <div class="card">
+      <h2>Posting Cari Mabar</h2>
+      <input id="username" placeholder="Nama kamu" />
+      <input id="game" placeholder="Nama game" />
+      <input id="note" placeholder="Rank / jam main" />
+      <input id="contact" placeholder="Link WA / Discord" />
+      <button onclick="addPost()">Posting</button>
+    </div>
+
+    <div class="card">
+      <input id="search" placeholder="🔎 Cari game..." onkeyup="filterPosts()" />
+    </div>
+
+    <div class="posts" id="posts"></div>
+  </div>
+
+  <!-- ABOUT -->
+  <div id="about" class="hidden">
+    <h1>About</h1>
+    <div class="card">
+      <p>Website ini dibuat untuk mempertemukan gamer agar bisa bermain bersama (mabar), mencari tim, dan membangun komunitas gaming yang positif.</p>
+    </div>
+  </div>
+
+  <!-- RULES -->
+  <div id="rules" class="hidden">
+    <h1>Rules</h1>
+    <div class="card">
+      <ul>
+        <li>❌ No toxic & SARA</li>
+        <li>🤝 Saling menghormati</li>
+        <li>🎮 Mabar dengan sportif</li>
+        <li>🚫 Dilarang spam</li>
+      </ul>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  const postsEl = document.getElementById('posts');
+  const pages = ['home','about','rules'];
+
+  const data = [
+    { user:'Andi', game:'Mobile Legends', note:'Epic, santai', contact:'https://wa.me/628xxxx' },
+    { user:'Salsa', game:'Valorant', note:'Gold, malam', contact:'https://discord.gg/xxxxx' }
+  ];
+
+  function showPage(id){
+    pages.forEach(p => document.getElementById(p).classList.add('hidden'));
+    document.getElementById(id).classList.remove('hidden');
+  }
+
+  function render(){
+    postsEl.innerHTML='';
+    data.forEach(p => {
+      const div = document.createElement('div');
+      div.className='card post';
+      div.innerHTML = `
+        <h3>${p.game}</h3>
+        <p>👤 ${p.user}</p>
+        <p>${p.note}</p>
+        <div class='chat'>
+          <a href='${p.contact}' target='_blank'>💬 Chat</a>
+        </div>`;
+      postsEl.appendChild(div);
+    });
+  }
+
+  function addPost(){
+    const user = username.value;
+    const game = document.getElementById('game').value;
+    const note = document.getElementById('note').value;
+    const contact = document.getElementById('contact').value;
+    if(!user || !game) return alert('Nama & game wajib diisi');
+    data.unshift({user,game,note,contact});
+    render();
+  }
+
+  function filterPosts(){
+    const q = document.getElementById('search').value.toLowerCase();
+    document.querySelectorAll('.post').forEach(p=>{
+      p.style.display = p.innerText.toLowerCase().includes(q) ? '' : 'none';
+    });
+  }
+
+  render();
+</script>
+
+</body>
+  </html>
+
