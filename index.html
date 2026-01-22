@@ -3,124 +3,157 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Komunitas Mabar Online</title>
+  <title>Poster Orang Hilang Resmi</title>
   <style>
+    * { box-sizing: border-box; }
     body {
+      font-family: Arial, Helvetica, sans-serif;
+      background: #e9eef3;
       margin: 0;
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
+      padding: 0;
     }
-    header {
-      background: #020617;
+
+    .poster {
+      max-width: 800px;
+      margin: 20px auto;
+      background: #ffffff;
+      border: 6px solid #0d47a1;
       padding: 20px;
-      text-align: center;
     }
-    header h1 {
-      margin: 0;
-      color: #38bdf8;
-    }
-    nav {
+
+    .header {
       display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 10px;
+      align-items: center;
+      gap: 15px;
+      border-bottom: 3px solid #0d47a1;
+      padding-bottom: 10px;
+      margin-bottom: 15px;
     }
-    nav a {
-      color: #e5e7eb;
-      text-decoration: none;
-      font-weight: bold;
+
+    .logo {
+      width: 80px;
     }
-    section {
-      padding: 40px 20px;
-      max-width: 1000px;
-      margin: auto;
-    }
-    .card-container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-    }
-    .card {
-      background: #020617;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.4);
-    }
-    .card h3 {
-      margin-top: 0;
-      color: #38bdf8;
-    }
-    button {
-      background: #38bdf8;
-      border: none;
-      padding: 10px 16px;
-      border-radius: 8px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-    footer {
-      background: #020617;
+
+    .title {
       text-align: center;
-      padding: 20px;
-      margin-top: 40px;
+      flex: 1;
+    }
+
+    .title h1 {
+      margin: 0;
+      color: #b71c1c;
+      font-size: 36px;
+      letter-spacing: 2px;
+    }
+
+    .title p {
+      margin: 5px 0 0;
       font-size: 14px;
-      color: #94a3b8;
+      color: #333;
+    }
+
+    .photo {
+      width: 100%;
+      max-height: 360px;
+      object-fit: cover;
+      border: 3px solid #333;
+      margin: 15px 0;
+    }
+
+    .info {
+      font-size: 18px;
+      line-height: 1.7;
+    }
+
+    .info strong {
+      display: inline-block;
+      width: 170px;
+    }
+
+    .contact {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e3f2fd;
+      border-left: 6px solid #0d47a1;
+      font-size: 18px;
+    }
+
+    .wa-button {
+      display: block;
+      text-align: center;
+      margin: 20px auto 0;
+      background: #25D366;
+      color: white;
+      padding: 15px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 20px;
+      max-width: 350px;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 20px;
+      font-size: 14px;
+      color: #444;
+    }
+
+    /* MOBILE */
+    @media (max-width: 600px) {
+      .title h1 { font-size: 28px; }
+      .info strong { width: 140px; }
+      .logo { width: 60px; }
+    }
+
+    /* PRINT A4 */
+    @media print {
+      body { background: white; }
+      .wa-button { display: none; }
+      .poster { margin: 0; border: 4px solid black; }
     }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Komunitas Mabar Online</h1>
-    <p>Cari teman main bareng, no toxic 🎮</p>
-    <nav>
-      <a href="#about">Tentang</a>
-      <a href="#games">Game</a>
-      <a href="#join">Gabung</a>
-    </nav>
-  </header>
+  <div class="poster">
 
-  <section id="about">
-    <h2>Tentang Komunitas</h2>
-    <p>
-      Komunitas Mabar Online adalah tempat buat kamu yang ingin mencari teman
-      main game bareng secara santai maupun kompetitif. Terbuka untuk semua platform
-      dan semua player.
-    </p>
-  </section>
-
-  <section id="games">
-    <h2>Game Populer</h2>
-    <div class="card-container">
-      <div class="card">
-        <h3>Mobile Legends</h3>
-        <p>Cari squad rank atau classic.</p>
-      </div>
-      <div class="card">
-        <h3>Valorant</h3>
-        <p>Mabar santai atau push rank bareng.</p>
-      </div>
-      <div class="card">
-        <h3>PUBG / CODM</h3>
-        <p>Chicken dinner rame-rame.</p>
-      </div>
-      <div class="card">
-        <h3>Game Lainnya</h3>
-        <p>Free Fire, Genshin, Dota 2, dll.</p>
+    <div class="header">
+      <!-- Logo Instansi / Polri -->
+      <img src="https://upload.wikimedia.org/wikipedia/commons/9/9f/Logo_Polri.png" class="logo" alt="Logo Polri" />
+      <div class="title">
+        <h1>ORANG HILANG</h1>
+        <p>Laporan Kehilangan Orang</p>
       </div>
     </div>
-  </section>
 
-  <section id="join">
-    <h2>Gabung Sekarang</h2>
-    <p>
-      Klik tombol di bawah untuk gabung ke grup komunitas dan mulai mabar.
-    </p>
-    <button>Gabung Komunitas</button>
-  </section>
+    <img src="https://via.placeholder.com/800x360?text=Foto+Orang+Hilang" alt="Foto Orang Hilang" class="photo" />
 
-  <footer>
-    © 2026 Komunitas Mabar Online • Dibuat untuk gamer Indonesia
-  </footer>
+    <div class="info">
+      <p><strong>Nama</strong>: ____________________</p>
+      <p><strong>Umur</strong>: _____ tahun</p>
+      <p><strong>Jenis Kelamin</strong>: ____________________</p>
+      <p><strong>Tinggi Badan</strong>: _____ cm</p>
+      <p><strong>Ciri-ciri</strong>: ____________________</p>
+      <p><strong>Terakhir Dilihat</strong>: ____________________</p>
+      <p><strong>Tanggal Hilang</strong>: ____________________</p>
+      <p><strong>No. Laporan</strong>: ____________________</p>
+    </div>
+
+    <div class="contact">
+      <p><strong>Jika menemukan atau mengetahui keberadaan, segera hubungi:</strong></p>
+      <p>Nama Kontak: ____________________</p>
+      <p>No. HP / WhatsApp: 08xxxxxxxxxx</p>
+    </div>
+
+    <!-- Tombol WhatsApp -->
+    <a class="wa-button" href="https://wa.me/628xxxxxxxxxx" target="_blank">
+      📞 Hubungi via WhatsApp
+    </a>
+
+    <div class="footer">
+      <p>Mohon bantuan masyarakat untuk menyebarkan informasi ini.</p>
+      <p>© Poster Orang Hilang</p>
+    </div>
+
+  </div>
 </body>
 </html>
