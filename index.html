@@ -3,30 +3,41 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Website 3D Interaktif</title>
+  <title>Gourmet 3D Experience</title>
   
-  <!-- File CSS Eksternal -->
   <link rel="stylesheet" href="style.css">
 
-  <!-- Load Library Three.js & OrbitControls via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
 </head>
 <body>
 
-  <!-- Container khusus Canvas 3D -->
   <div id="webgl-container"></div>
 
-  <!-- Overlay UI di bagian depan -->
   <div class="ui-overlay">
-    <div class="ui-card">
-      <h1>Pengalaman 3D</h1>
-      <p>Klik dan geser mouse untuk memutar objek 3D. Gunakan scroll untuk memperbesar/memperkecil.</p>
-      <button class="btn" id="interact-btn">Ubah Warna Material</button>
-    </div>
+    <nav class="navbar">
+      <div class="logo">LUXE<span>DINING</span></div>
+      <div class="nav-links">
+        <a href="#menu">Menu</a>
+        <a href="#about">Tentang</a>
+        <a href="#reserve" class="nav-btn">Reservasi</a>
+      </div>
+    </nav>
+
+    <main class="hero">
+      <div class="hero-card">
+        <span class="tag">Pengalaman Kuliner 3D</span>
+        <h1>Cita Rasa Masa Depan</h1>
+        <p>Nikmati sajian kelas dunia dengan bahan organik terbaik yang disajikan secara eksklusif.</p>
+        
+        <div class="cta-group">
+          <button class="btn btn-primary" id="interact-btn">Buka Penutup Saji</button>
+          <button class="btn btn-secondary" id="color-btn">Ganti Warna Pencahayaan</button>
+        </div>
+      </div>
+    </main>
   </div>
 
-  <!-- File JavaScript Eksternal -->
   <script src="script.js"></script>
 </body>
 </html>
