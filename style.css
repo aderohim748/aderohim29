@@ -1,4 +1,3 @@
-/* Reset margin dan padding default browser */
 * {
   margin: 0;
   padding: 0;
@@ -9,12 +8,12 @@ body, html {
   width: 100%;
   height: 100%;
   overflow: hidden;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: #050505;
+  font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+  background-color: #0d0b0a;
   color: #ffffff;
 }
 
-/* Container WebGL Latar Belakang */
+/* Canvas Latar Belakang 3D */
 #webgl-container {
   position: fixed;
   top: 0;
@@ -24,63 +23,152 @@ body, html {
   z-index: 1;
 }
 
-/* Layer Overlay UI UI */
+/* Layer UI Overlay */
 .ui-overlay {
   position: relative;
   z-index: 2;
-  pointer-events: none; /* Mengizinkan klik mouse menembus ke canvas 3D */
+  pointer-events: none;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   height: 100vh;
-  text-align: center;
-  padding: 20px;
+  justify-content: space-between;
+  padding: 30px 50px;
 }
 
-/* Kartu Tampilan Glassmorphism */
-.ui-card {
-  background: rgba(255, 255, 255, 0.05);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.15);
-  padding: 40px 60px;
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  pointer-events: auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  letter-spacing: 3px;
+  color: #fff;
+}
+
+.logo span {
+  color: #d4af37; /* Warna emas */
+}
+
+.nav-links a {
+  color: #ccc;
+  text-decoration: none;
+  margin-left: 30px;
+  font-size: 0.95rem;
+  transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+  color: #d4af37;
+}
+
+.nav-links .nav-btn {
+  border: 1px solid #d4af37;
+  padding: 8px 20px;
   border-radius: 20px;
-  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
-  pointer-events: auto; /* Mengaktifkan kembali klik mouse pada tombol/kartu */
-  max-width: 500px;
+  color: #d4af37;
+}
+
+.nav-links .nav-btn:hover {
+  background: #d4af37;
+  color: #000;
+}
+
+/* Hero Section */
+.hero {
+  display: flex;
+  align-items: center;
+  height: 80%;
+}
+
+.hero-card {
+  background: rgba(20, 18, 15, 0.5);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(212, 175, 55, 0.2);
+  padding: 40px;
+  border-radius: 24px;
+  max-width: 480px;
+  pointer-events: auto;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
+}
+
+.tag {
+  color: #d4af37;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 600;
 }
 
 h1 {
-  font-size: 2.5rem;
-  letter-spacing: 2px;
-  margin-bottom: 12px;
-  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  font-size: 2.8rem;
+  margin: 12px 0;
+  line-height: 1.2;
+  font-weight: 700;
+  background: linear-gradient(135deg, #ffffff 0%, #d4af37 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
 
 p {
-  color: #a0a0a0;
+  color: #b0a89e;
   font-size: 1rem;
   line-height: 1.6;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
 }
 
-/* Tombol Interaktif */
+/* Tombol Interaksi */
+.cta-group {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
 .btn {
-  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
-  color: #000000;
-  border: none;
-  padding: 12px 28px;
-  font-size: 0.95rem;
-  font-weight: 700;
+  padding: 12px 24px;
+  font-size: 0.9rem;
+  font-weight: 600;
   border-radius: 30px;
   cursor: pointer;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  transition: all 0.3s ease;
+  border: none;
 }
 
-.btn:hover {
+.btn-primary {
+  background: linear-gradient(135deg, #d4af37 0%, #aa7c11 100%);
+  color: #000;
+}
+
+.btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px rgba(79, 172, 254, 0.4);
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: #fff;
+}
+
+/* Responsif untuk Layar Kecil */
+@media (max-width: 768px) {
+  .ui-overlay {
+    padding: 20px;
+  }
+  .nav-links {
+    display: none;
+  }
+  .hero-card {
+    max-width: 100%;
+  }
 }
