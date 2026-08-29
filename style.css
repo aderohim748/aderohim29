@@ -1,0 +1,86 @@
+/* Reset margin dan padding default browser */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #050505;
+  color: #ffffff;
+}
+
+/* Container WebGL Latar Belakang */
+#webgl-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+}
+
+/* Layer Overlay UI UI */
+.ui-overlay {
+  position: relative;
+  z-index: 2;
+  pointer-events: none; /* Mengizinkan klik mouse menembus ke canvas 3D */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  text-align: center;
+  padding: 20px;
+}
+
+/* Kartu Tampilan Glassmorphism */
+.ui-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 40px 60px;
+  border-radius: 20px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+  pointer-events: auto; /* Mengaktifkan kembali klik mouse pada tombol/kartu */
+  max-width: 500px;
+}
+
+h1 {
+  font-size: 2.5rem;
+  letter-spacing: 2px;
+  margin-bottom: 12px;
+  background: linear-gradient(135deg, #00f2fe, #4facfe);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+p {
+  color: #a0a0a0;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+
+/* Tombol Interaktif */
+.btn {
+  background: linear-gradient(135deg, #00f2fe 0%, #4facfe 100%);
+  color: #000000;
+  border: none;
+  padding: 12px 28px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  border-radius: 30px;
+  cursor: pointer;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px rgba(79, 172, 254, 0.4);
+}
