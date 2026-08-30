@@ -1,143 +1,460 @@
-// --- 1. INISIALISASI SCENE & CAMERA ---
-const container = document.getElementById('webgl-container');
+/* =================================
+   FOODIFY JAVASCRIPT
+================================= */
 
-const scene = new THREE.Scene();
-scene.fog = new THREE.FogExp2(0x0d0b0a, 0.02);
+let cart = [];
 
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.set(0, 2, 7);
+const cartButton = document.getElementById("cartButton");
+const cartSidebar = document.getElementById("cartSidebar");
+const cartOverlay = document.getElementById("cartOverlay");
+const closeCart = document.getElementById("closeCart");
 
-const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
-renderer.toneMapping = THREE.ACESFilmicToneMapping;
-renderer.shadowMap.enabled = true;
-container.appendChild(renderer.domElement);
+const cartItems = document.getElementById("cartItems");
+const cartCount = document.getElementById("cartCount");
+const cartTotal = document.getElementById("cartTotal");
 
-// --- 2. CONTROLS ---
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.05;
-controls.maxPolarAngle = Math.PI / 2; // Mencegah kamera masuk ke bawah lantai
-controls.minDistance = 4;
-controls.maxDistance = 12;
+const products = document.querySelectorAll(".product-card");
+const categories = document.querySelectorAll(".category");
 
-// --- 3. PENCAHAYAAN (AMBANCE RESTORAN HANGAT) ---
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.3);
-scene.add(ambientLight);
+const searchInput = document.getElementById("searchInput");
 
-// Lampu Sorot Emas dari Atas (Spotlight)
-const spotLight = new THREE.SpotLight(0xd4af37, 3);
-spotLight.position.set(0, 8, 3);
-spotLight.angle = Math.PI / 4;
-spotLight.penumbra = 0.5;
-spotLight.castShadow = true;
-scene.add(spotLight);
 
-// Accent Light Hangat dari Belakang
-const backLight = new THREE.PointLight(0xff6600, 2, 10);
-backLight.position.set(-3, 2, -3);
-scene.add(backLight);
+/* =================================
+   CART OPEN / CLOSE
+================================= */
 
-// --- 4. PEMBUATAN OBJEK 3D (PLATE & CLOCHE) ---
-const restaurantGroup = new THREE.Group();
+cartButton.addEventListener("click", () => {
 
-// Material Emas Mewah
-const goldMaterial = new THREE.MeshStandardMaterial({
-  color: 0xd4af37,
-  metalness: 0.9,
-  roughness: 0.15
+    cartSidebar.classList.add("open");
+    cartOverlay.classList.add("show");
+
 });
 
-// Material Perak Chrome
-const chromeMaterial = new THREE.MeshStandardMaterial({
-  color: 0xcccccc,
-  metalness: 0.95,
-  roughness: 0.1
-});
 
-// A. Piring (Base Plate)
-const plateGeometry = new THREE.CylinderGeometry(2, 1.5, 0.15, 64);
-const plate = new THREE.Mesh(plateGeometry, chromeMaterial);
-plate.position.y = -0.075;
-plate.receiveShadow = true;
-restaurantGroup.add(plate);
+closeCart.addEventListener("click", closeCartSidebar);
 
-// B. Penutup Saji (Dome / Cloche)
-const domeGeometry = new THREE.SphereGeometry(1.6, 32, 16, 0, Math.PI * 2, 0, Math.PI / 2);
-const dome = new THREE.Mesh(domeGeometry, goldMaterial);
-dome.castShadow = true;
-restaurantGroup.add(dome);
+cartOverlay.addEventListener("click", closeCartSidebar);
 
-// C. Pegangan Penutup Saji (Handle)
-const handleGeometry = new THREE.SphereGeometry(0.2, 16, 16);
-const handle = new THREE.Mesh(handleGeometry, chromeMaterial);
-handle.position.y = 1.7;
-dome.add(handle);
 
-scene.add(restaurantGroup);
+function closeCartSidebar() {
 
-// D. Efek Partikel Debu Cahaya
-const particlesGeometry = new THREE.BufferGeometry();
-const particleCount = 300;
-const posArray = new Float32Array(particleCount * 3);
+    cartSidebar.classList.remove("open");
+    cartOverlay.classList.remove("show");
 
-for (let i = 0; i < particleCount * 3; i++) {
-  posArray[i] = (Math.random() - 0.5) * 15;
 }
 
-particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
-const particlesMaterial = new THREE.PointsMaterial({
-  size: 0.02,
-  color: 0xd4af37,
-  transparent: true,
-  opacity: 0.6
-});
-const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
-scene.add(particlesMesh);
 
-// --- 5. ANIMASI LOOP ---
-let isDomeOpen = false;
-let targetDomeY = 0;
+/* =================================
+   ADD TO CART
+================================= */
 
-function animate() {
-  requestAnimationFrame(animate);
+function addToCart(name, price) {
 
-  // Rotasi lambat seluruh objek
-  restaurantGroup.rotation.y += 0.003;
-  particlesMesh.rotation.y -= 0.0005;
+    const existingItem = cart.find(
+        item => item.name === name
+    );
 
-  // Animasi Terbuka/Tutup Penutup Saji (Smooth Lerp)
-  dome.position.y += (targetDomeY - dome.position.y) * 0.05;
+    if (existingItem) {
 
-  controls.update();
-  renderer.render(scene, camera);
+        existingItem.quantity++;
+
+    } else {
+
+        cart.push({
+            name: name,
+            price: price,
+            quantity: 1
+        });
+
+    }
+
+    updateCart();
+
+    // Open cart automatically
+    cartSidebar.classList.add("open");
+    cartOverlay.classList.add("show");
+
 }
-animate();
 
-// --- 6. EVENT RESPONSIVE ---
-window.addEventListener('resize', () => {
-  camera.aspect = window.innerWidth / window.innerHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+/* =================================
+   REMOVE FROM CART
+================================= */
+
+function removeFromCart(index) {
+
+    cart.splice(index, 1);
+
+    updateCart();
+
+}
+
+
+/* =================================
+   UPDATE CART
+================================= */
+
+function updateCart() {
+
+    cartItems.innerHTML = "";
+
+    if (cart.length === 0) {
+
+        cartItems.innerHTML = `
+            <div class="empty-cart">
+                <span>🛒</span>
+                <p>Keranjang masih kosong</p>
+            </div>
+        `;
+
+    } else {
+
+        cart.forEach((item, index) => {
+
+            const cartItem = document.createElement("div");
+
+            cartItem.className = "cart-item";
+
+            cartItem.innerHTML = `
+
+                <div class="cart-item-icon">
+                    ${getFoodIcon(item.name)}
+                </div>
+
+                <div class="cart-item-info">
+
+                    <h4>${item.name}</h4>
+
+                    <p>
+                        ${item.quantity} ×
+                        ${formatRupiah(item.price)}
+                    </p>
+
+                </div>
+
+                <button
+                    class="remove-item"
+                    onclick="removeFromCart(${index})"
+                >
+                    ×
+                </button>
+
+            `;
+
+            cartItems.appendChild(cartItem);
+
+        });
+
+    }
+
+
+    // Count
+    const totalQuantity = cart.reduce(
+        (total, item) => total + item.quantity,
+        0
+    );
+
+    cartCount.textContent = totalQuantity;
+
+
+    // Total price
+    const totalPrice = cart.reduce(
+        (total, item) =>
+            total + item.price * item.quantity,
+        0
+    );
+
+    cartTotal.textContent = formatRupiah(totalPrice);
+
+}
+
+
+/* =================================
+   FOOD ICON
+================================= */
+
+function getFoodIcon(name) {
+
+    const lowerName = name.toLowerCase();
+
+    if (lowerName.includes("burger")) {
+        return "🍔";
+    }
+
+    if (lowerName.includes("pizza")) {
+        return "🍕";
+    }
+
+    if (lowerName.includes("coffee")) {
+        return "☕";
+    }
+
+    if (lowerName.includes("cake")) {
+        return "🍰";
+    }
+
+    if (lowerName.includes("fries")) {
+        return "🍟";
+    }
+
+    return "🍽️";
+
+}
+
+
+/* =================================
+   FORMAT RUPIAH
+================================= */
+
+function formatRupiah(number) {
+
+    return new Intl.NumberFormat(
+        "id-ID",
+        {
+            style: "currency",
+            currency: "IDR",
+            maximumFractionDigits: 0
+        }
+    ).format(number);
+
+}
+
+
+/* =================================
+   CATEGORY FILTER
+================================= */
+
+categories.forEach(category => {
+
+    category.addEventListener("click", () => {
+
+        categories.forEach(item => {
+            item.classList.remove("active");
+        });
+
+        category.classList.add("active");
+
+        const selectedCategory =
+            category.dataset.category;
+
+        products.forEach(product => {
+
+            const productCategory =
+                product.dataset.category;
+
+            if (
+                selectedCategory === "all" ||
+                productCategory === selectedCategory
+            ) {
+
+                product.style.display = "block";
+
+            } else {
+
+                product.style.display = "none";
+
+            }
+
+        });
+
+    });
+
 });
 
-// --- 7. INTERAKSI TOMBOL ---
-const interactBtn = document.getElementById('interact-btn');
-const colorBtn = document.getElementById('color-btn');
 
-interactBtn.addEventListener('click', () => {
-  isDomeOpen = !isDomeOpen;
-  targetDomeY = isDomeOpen ? 2.5 : 0; // Mengangkat penutup saji ke atas
-  interactBtn.innerText = isDomeOpen ? "Tutup Penutup Saji" : "Buka Penutup Saji";
+/* =================================
+   SEARCH
+================================= */
+
+searchInput.addEventListener("input", () => {
+
+    const keyword =
+        searchInput.value.toLowerCase().trim();
+
+    products.forEach(product => {
+
+        const productName =
+            product.dataset.name.toLowerCase();
+
+        if (productName.includes(keyword)) {
+
+            product.style.display = "block";
+
+        } else {
+
+            product.style.display = "none";
+
+        }
+
+    });
+
 });
 
-const colors = [0xd4af37, 0xff4500, 0x00f2fe, 0xff007f];
-let currentColorIdx = 0;
 
-colorBtn.addEventListener('click', () => {
-  currentColorIdx = (currentColorIdx + 1) % colors.length;
-  spotLight.color.setHex(colors[currentColorIdx]);
-  particlesMaterial.color.setHex(colors[currentColorIdx]);
+/* =================================
+   SCROLL TO PRODUCTS
+================================= */
+
+function scrollToProducts() {
+
+    document
+        .getElementById("products")
+        .scrollIntoView({
+            behavior: "smooth"
+        });
+
+}
+
+
+/* =================================
+   PROMO CODE
+================================= */
+
+function copyPromo() {
+
+    const promoCode = "FOOD30";
+
+    navigator.clipboard.writeText(promoCode)
+        .then(() => {
+
+            alert(
+                "Kode promo FOOD30 berhasil disalin! 🎉"
+            );
+
+        })
+        .catch(() => {
+
+            alert(
+                "Kode promo: FOOD30"
+            );
+
+        });
+
+}
+
+
+/* =================================
+   CHECKOUT
+================================= */
+
+function checkout() {
+
+    if (cart.length === 0) {
+
+        alert(
+            "Keranjang kamu masih kosong 😅"
+        );
+
+        return;
+
+    }
+
+
+    let message =
+        "Pesanan Foodify:%0A%0A";
+
+
+    cart.forEach(item => {
+
+        message +=
+            `🍽️ ${item.name} x${item.quantity} - ${formatRupiah(item.price * item.quantity)}%0A`;
+
+    });
+
+
+    const total = cart.reduce(
+        (sum, item) =>
+            sum + item.price * item.quantity,
+        0
+    );
+
+
+    message +=
+        `%0A💰 Total: ${formatRupiah(total)}`;
+
+
+    alert(
+        "Checkout berhasil dibuat! 🎉\n\n" +
+        "Total pesanan: " +
+        formatRupiah(total)
+    );
+
+}
+
+
+/* =================================
+   3D MOUSE EFFECT
+================================= */
+
+const foodCircle =
+    document.querySelector(".food-circle");
+
+document.addEventListener("mousemove", (event) => {
+
+    if (window.innerWidth < 900) return;
+
+    const x =
+        (window.innerWidth / 2 - event.clientX) / 35;
+
+    const y =
+        (window.innerHeight / 2 - event.clientY) / 35;
+
+    foodCircle.style.transform =
+        `translateY(0) rotateY(${x}deg) rotateX(${y}deg)`;
+
 });
+
+
+/* =================================
+   PRODUCT 3D TILT
+================================= */
+
+products.forEach(card => {
+
+    card.addEventListener("mousemove", (event) => {
+
+        if (window.innerWidth < 700) return;
+
+        const rect =
+            card.getBoundingClientRect();
+
+        const x =
+            event.clientX - rect.left;
+
+        const y =
+            event.clientY - rect.top;
+
+        const centerX =
+            rect.width / 2;
+
+        const centerY =
+            rect.height / 2;
+
+        const rotateX =
+            ((y - centerY) / centerY) * -4;
+
+        const rotateY =
+            ((x - centerX) / centerX) * 4;
+
+        card.style.transform =
+            `translateY(-10px)
+             rotateX(${rotateX}deg)
+             rotateY(${rotateY}deg)`;
+
+    });
+
+
+    card.addEventListener("mouseleave", () => {
+
+        card.style.transform = "";
+
+    });
+
+});
+
+
+/* =================================
+   INITIALIZE
+================================= */
+
+updateCart();
