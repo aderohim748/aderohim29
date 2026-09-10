@@ -348,8 +348,8 @@ function checkout() {
 
     // GANTI DENGAN NOMOR WHATSAPP TOKO
     // Format: kode negara + nomor
-    // Contoh Indonesia: 62831447565512
-    const whatsappNumber = "6283144756512";
+    // Contoh Indonesia: 6289630164324
+    const whatsappNumber = "6289630164324";
 
     let message =
         "🍔 *PESANAN FOODIFY*%0A" +
