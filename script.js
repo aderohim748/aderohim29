@@ -381,7 +381,7 @@ function checkout() {
 
 
     const whatsappURL =
-        `https://wa.me/${whatsappNumber}?text=${message}`;
+        `https://wa.me/${62895352505993}?text=${message}`;
 
 
     // Buka WhatsApp
