@@ -345,10 +345,6 @@ function checkout() {
 
         return;
     }
-
-    // GANTI DENGAN NOMOR WHATSAPP TOKO
-    // Format: kode negara + nomor
-    // Contoh Indonesia: 62895352505993
     const whatsappNumber = "62895352505993";
 
     let message =
