@@ -341,46 +341,56 @@ function checkout() {
 
     if (cart.length === 0) {
 
-        alert(
-            "Keranjang kamu masih kosong 😅"
-        );
+        alert("Keranjang kamu masih kosong 😅");
 
         return;
-
     }
 
+    // GANTI DENGAN NOMOR WHATSAPP TOKO
+    // Format: kode negara + nomor
+    // Contoh Indonesia: 6281234567890
+    const whatsappNumber = "6281234567890";
 
     let message =
-        "Pesanan Foodify:%0A%0A";
+        "🍔 *PESANAN FOODIFY*%0A" +
+        "====================%0A%0A";
 
 
-    cart.forEach(item => {
+    cart.forEach((item, index) => {
 
         message +=
-            `🍽️ ${item.name} x${item.quantity} - ${formatRupiah(item.price * item.quantity)}%0A`;
+            `${index + 1}. *${item.name}*%0A` +
+            `   Jumlah: ${item.quantity}%0A` +
+            `   Harga: ${formatRupiah(item.price * item.quantity)}%0A%0A`;
 
     });
 
 
     const total = cart.reduce(
         (sum, item) =>
-            sum + item.price * item.quantity,
+            sum + (item.price * item.quantity),
         0
     );
 
 
     message +=
-        `%0A💰 Total: ${formatRupiah(total)}`;
+        "====================%0A" +
+        `💰 *TOTAL: ${formatRupiah(total)}*%0A%0A` +
+        "📍 Mohon konfirmasi pesanan saya.%0A" +
+        "Terima kasih 🙏";
 
 
-    alert(
-        "Checkout berhasil dibuat! 🎉\n\n" +
-        "Total pesanan: " +
-        formatRupiah(total)
+    const whatsappURL =
+        `https://wa.me/${whatsappNumber}?text=${message}`;
+
+
+    // Buka WhatsApp
+    window.open(
+        whatsappURL,
+        "_blank"
     );
 
 }
-
 
 /* =================================
    3D MOUSE EFFECT
