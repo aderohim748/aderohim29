@@ -341,52 +341,13 @@ function checkout() {
 
     if (cart.length === 0) {
 
-        alert("Keranjang kamu masih kosong 😅");
+        alert(
+            "Keranjang kamu masih kosong 😅"
+        );
 
         return;
+
     }
-    const whatsappNumber = "62895352505993";
-
-    let message =
-        "🍔 *PESANAN FOODIFY*%0A" +
-        "====================%0A%0A";
-
-
-    cart.forEach((item, index) => {
-
-        message +=
-            `${index + 1}. *${item.name}*%0A` +
-            `   Jumlah: ${item.quantity}%0A` +
-            `   Harga: ${formatRupiah(item.price * item.quantity)}%0A%0A`;
-
-    });
-
-
-    const total = cart.reduce(
-        (sum, item) =>
-            sum + (item.price * item.quantity),
-        0
-    );
-
-
-    message +=
-        "====================%0A" +
-        `💰 *TOTAL: ${formatRupiah(total)}*%0A%0A` +
-        "📍 Mohon konfirmasi pesanan saya.%0A" +
-        "Terima kasih 🙏";
-
-
-    const whatsappURL =
-        `https://wa.me/${62895352505993}?text=${message}`;
-
-
-    // Buka WhatsApp
-    window.open(
-        whatsappURL,
-        "_blank"
-    );
-
-} 
 
 
     let message =
